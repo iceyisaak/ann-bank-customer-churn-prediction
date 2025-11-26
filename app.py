@@ -10,7 +10,6 @@ from keras.models import load_model
 import streamlit as st
 
 
-
 import pickle
 # Load the pre-fitted encoder
 try:
@@ -28,10 +27,6 @@ except FileNotFoundError:
 # Import model
 model = load_model('ann.keras')
 
-# Encoders & Scalers
-# lbl_encoder = LabelEncoder()
-# oh_encoder = OneHotEncoder()
-# scaler = StandardScaler()
 
 # Streamlit
 st.title('Bank Customer Churn Predictor')
