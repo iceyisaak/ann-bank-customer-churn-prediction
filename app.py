@@ -78,7 +78,7 @@ data_input_scaled = scaler.transform(data_input)
 pred = model.predict(data_input_scaled)
 pred_proba = pred[0][0]
 
-
+st.write(f'Churn Probability: {pred_proba: .2f}')
 
 if st.button('Predict'):
     if pred_proba > 0.5:
