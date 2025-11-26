@@ -9,16 +9,33 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 from keras.models import load_model
 import streamlit as st
 
+
+
+import pickle
+# Load the pre-fitted encoder
+try:
+    with open('oh_encoder.pkl', 'rb') as file:
+        oh_encoder = pickle.load(file)
+    with open('lbl_encoder.pkl', 'rb') as file:
+        lbl_encoder = pickle.load(file)
+    with open('scaler.pkl', 'rb') as file:
+        scaler = pickle.load(file)
+except FileNotFoundError:
+    st.error("Error: one of the .pkl files could not be found. Make sure the fitted encoder is in the correct path.")
+    st.stop() # Stop the app if the encoder can't be loaded
+
+
 # Import model
 model = load_model('ann.keras')
 
 # Encoders & Scalers
-lb_encoder = LabelEncoder()
-oh_encoder = OneHotEncoder()
-scaler = StandardScaler()
+# lbl_encoder = LabelEncoder()
+# oh_encoder = OneHotEncoder()
+# scaler = StandardScaler()
 
 # Streamlit
 st.title('Bank Customer Churn Predictor')
+st.markdown("By Iceyisaak | **[Repo on GitHub 💼](https://github.com/iceyisaak/ann-bank-customer-churn-prediction)**.")
 
 # data_input = {
 #  'gender':'Female',
@@ -33,7 +50,7 @@ st.title('Bank Customer Churn Predictor')
 
 # UIs
 country = st.selectbox('Country',oh_encoder.categories_[0])
-gender = st.selectbox('Gender',lb_encoder.classes_)
+gender = st.selectbox('Gender',lbl_encoder.classes_)
 age = st.slider('Age', 18,99)
 balance = st.number_input('Balance')
 num_of_products = st.slider('Number of Products',1,4)
@@ -43,7 +60,7 @@ complained = st.selectbox('Complained',[0,1])
 
 # Prep Input Data
 data_input = pd.DataFrame({
- 'gender':[lb_encoder.transform([gender][0])],
+ 'gender':[lbl_encoder.transform([gender])],
  'age':[age],
  'balance':[balance],
  'num_of_products':[num_of_products],
@@ -66,7 +83,10 @@ data_input_scaled = scaler.transform(data_input)
 pred = model.predict(data_input_scaled)
 pred_proba = pred[0][0]
 
-if pred_proba > 0.5:
-    st.write('The customer is likely to churn.')
-else:
-    st.write('The customer is NOT likely to churn.')
+
+
+if st.button('Predict'):
+    if pred_proba > 0.5:
+        st.error('The customer is likely to churn.')
+    else:
+        st.success('The customer is NOT likely to churn.')
