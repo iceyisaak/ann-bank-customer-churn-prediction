@@ -11,17 +11,27 @@ import streamlit as st
 
 
 import pickle
-# Load the pre-fitted encoder
+from pathlib import Path
+
+# Get the directory of the current script (app.py)
+script_dir = Path(__file__).parent 
+
 try:
-    with open('oh_encoder.pkl', 'rb') as file:
+    # 1. Resolve the path relative to app.py's location
+    oh_encoder_path = script_dir / 'oh_encoder.pkl'
+    lbl_encoder_path = script_dir / 'lbl_encoder.pkl'
+    scaler_path = script_dir / 'scaler.pkl'
+
+    with open(oh_encoder_path, 'rb') as file:
         oh_encoder = pickle.load(file)
-    with open('lbl_encoder.pkl', 'rb') as file:
+    with open(lbl_encoder_path, 'rb') as file:
         lbl_encoder = pickle.load(file)
-    with open('scaler.pkl', 'rb') as file:
+    with open(scaler_path, 'rb') as file:
         scaler = pickle.load(file)
+
 except FileNotFoundError:
-    st.error("Error: one of the .pkl files could not be found. Make sure the fitted encoder is in the correct path.")
-    st.stop() # Stop the app if the encoder can't be loaded
+    st.error("Error: one of the .pkl files could not be found. Make sure all files are in the correct directory.")
+    st.stop()
 
 
 # # Import model
