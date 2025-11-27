@@ -24,8 +24,39 @@ except FileNotFoundError:
     st.stop() # Stop the app if the encoder can't be loaded
 
 
-# Import model
-model = load_model('ann.keras')
+# # Import model
+# model = load_model('./ann.keras')
+
+from pathlib import Path
+from keras.src.saving import saving_api
+# 1. Define the base directory as the directory containing app.py
+BASE_DIR = Path(__file__).resolve().parent
+
+# 2. Construct the absolute path to the model file
+# The Path object automatically handles correct path separators ('/')
+MODEL_PATH = BASE_DIR / 'ann.keras' 
+
+# 3. Load the model using the absolute path
+# IMPORTANT: Use try/except to catch and display the REAL error message, 
+# which is often suppressed in the initial Streamlit error page.
+try:
+    model = saving_api.load_model(
+        MODEL_PATH,
+        # *** REMINDER: If you have custom functions (like an F1 metric), 
+        # you MUST define them and pass them here:
+        # custom_objects={'f1_score': your_f1_function}
+        custom_objects=None 
+    )
+    st.success("Model loaded successfully!")
+except ValueError as e:
+    st.error(f"FATAL Model Loading Error: {e}")
+    # Display the full path attempted
+    st.code(f"Attempted to load from path: {MODEL_PATH}")
+    st.stop() # Stop the app to prevent further errors
+except Exception as e:
+    # Catch any other exception (e.g., file not found, permissions)
+    st.error(f"An unexpected error occurred during model loading: {e}")
+    st.stop()
 
 
 # Streamlit
