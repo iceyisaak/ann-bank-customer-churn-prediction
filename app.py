@@ -35,28 +35,29 @@ except FileNotFoundError:
 
 
 # # Import model
-# model = load_model('./ann.keras')
+model = load_model('ann_model')
 
 ########
 
+
 # Use st.cache_resource to load the model once and cache it
 # This is crucial for performance in Streamlit
-@st.cache_resource
-def load_keras_model(model_path):
-    """Loads the Keras model using the recommended load_model function."""
-    try:
-        # Use the standard Keras/TensorFlow load_model
-        model = load_model(model_path)
-        return model
-    except Exception as e:
-        st.error(f"Error loading model: {e}")
-        return None
+# @st.cache_resource
+# def load_keras_model(model_path):
+#     """Loads the Keras model using the recommended load_model function."""
+#     try:
+#         # Use the standard Keras/TensorFlow load_model
+#         model = load_model(model_path)
+#         return model
+#     except Exception as e:
+#         st.error(f"Error loading model: {e}")
+#         return None
 
-# Path to your saved model file
-MODEL_PATH = 'ann.keras'
+# # Path to your saved model file
+# MODEL_PATH = 'ann.keras'
 
-# Load the model
-model = load_keras_model(MODEL_PATH)
+# # Load the model
+# model = load_keras_model(MODEL_PATH)
 
 # if model:
 #     st.write("Model loaded successfully!")
