@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
 import os
 # Disables all GPUs, forcing operations onto the CPU
@@ -33,9 +32,6 @@ except FileNotFoundError:
     st.error("Error: one of the .pkl files could not be found. Make sure all files are in the correct directory.")
     st.stop()
 
-
-# # Import model
-# model = load_model('ann_model')
 
 ########
 
