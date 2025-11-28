@@ -43,7 +43,7 @@ except FileNotFoundError:
 @st.cache_resource
 def load_keras_model():
     # Load the new .keras file
-    return load_model('ann_model.keras')
+    return load_model('ann_model.keras', compile=False)
 
 model = load_keras_model()
 
