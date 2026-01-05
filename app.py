@@ -56,7 +56,6 @@ st.markdown("By Iceyisaak | **[Repo on GitHub 💼](https://github.com/iceyisaak
 #  'balance':200000,
 #  'num_of_products':4,
 #  'is_active':0,
-#  'complained':1,
 #  'country':'Germany'
 # }
 
@@ -68,7 +67,6 @@ age = st.slider('Age', 18,99)
 balance = st.number_input('Balance')
 num_of_products = st.slider('Number of Products',1,4)
 is_active = st.selectbox('Is Active Member',[0,1])
-complained = st.selectbox('Complained',[0,1])
 
 
 # Prep Input Data
@@ -78,7 +76,6 @@ data_input = pd.DataFrame({
  'balance':[balance],
  'num_of_products':[num_of_products],
  'is_active':[is_active],
- 'complained':[complained]
 })
 
 # Encode Country input
